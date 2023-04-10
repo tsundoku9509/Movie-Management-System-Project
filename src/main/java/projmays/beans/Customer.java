@@ -3,21 +3,36 @@
  * CIS175 - Spring 2023
  * Apr 6, 2023
  */
-package projmays.models;
+package projmays.beans;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * @author Adell
  *
  */
-
+@Entity
+@Table(name = "customer")
+@Embeddable
 public class Customer {
+	@Id
+	@GeneratedValue
 	private int id;
+	@Column(name = "first_name")
 	private String firstName;
+	@Column(name = "last-name")
 	private String lastName;
+	@Column(name = "password")
 	private String password;
+	@Column(name = "favorite_genre")
 	private String favoriteGenre;
+	@Column(name = "tickets_purchased")
 	private int numTicketsPurchased;
-	
 	
 	
 	public int getId() {
