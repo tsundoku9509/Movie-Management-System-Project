@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>View Showtimes</title>
+</head>
+<body>
+	<form>
+		<table>
+			<tr th:each="currentShowtime : ${showtimes}">
+				<td th:text="${currentShowtime.id}"/>
+				<td th:text="${currentShowtime.movieName}"/>
+				<td th:text="${currentShowtime.showtime}"/>
+				<td th:text="${currentShowtime.theaterNumber}"/>
+				<td th:text="${currentShowtime.ticketsAvailable}"/>
+				<!-- <td><a th:href="@{/edit/{id}(id=${currentHouse.id})}">Edit</a></td>
+				<td><a th:href="@{/delete/{id}(id=${currentHouse.id})}">Delete</a></td> -->
+			</tr>
+		</table>
+	</form>
+	<a href="../inputShowtime">Add a new showtime</a>
+</body>
+</html>

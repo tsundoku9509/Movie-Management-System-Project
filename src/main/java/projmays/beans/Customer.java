@@ -3,7 +3,7 @@
  * CIS175 - Spring 2023
  * Apr 6, 2023
  */
-package projmays.models;
+package projmays.beans;
 
 /**
  * @author Adell
