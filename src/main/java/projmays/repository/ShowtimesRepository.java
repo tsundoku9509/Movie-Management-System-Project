@@ -8,12 +8,13 @@ package projmays.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import projmays.beans.Showtimes;
+import projmays.beans.Showtime;
 
 /**
  * @author Adell
  *
  */
 @Repository
-public interface ShowtimesRepository  extends JpaRepository<Showtimes, Long>{
+public interface ShowtimesRepository  extends JpaRepository<Showtime, Long>{
+	
 }
