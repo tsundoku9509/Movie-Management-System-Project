@@ -7,6 +7,8 @@ package projmays.beans;
 
 import java.time.LocalTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
@@ -17,37 +19,38 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="theater_showtimes")
 @Embeddable
-public class Showtimes {
+public class Showtime {
 	@Id
 	@GeneratedValue
 	private long id;
 	@Column(name="movie_name")
 	private String movieName;
 	@Column(name="showtime")
-	private LocalTime showtime;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	private LocalTime time;
 	@Column(name="theater_number")
 	private int theaterNumber;
 	@Column(name="tickets_available")
 	private int ticketsAvailable;
-	public Showtimes() {
+	public Showtime() {
 		super();
 	}
-	public Showtimes(String movieName) {
+	public Showtime(String movieName) {
 		super();
 		this.movieName = movieName;
 	}
-	public Showtimes(String movieName, LocalTime showtime, int theaterNumber, int ticketsAvailable) {
+	public Showtime(String movieName, LocalTime time, int theaterNumber, int ticketsAvailable) {
 		super();
 		this.movieName = movieName;
-		this.showtime = showtime;
+		this.time = time;
 		this.theaterNumber = theaterNumber;
 		this.ticketsAvailable = ticketsAvailable;
 	}
-	public Showtimes(long id, String movieName, LocalTime showtime, int theaterNumber, int ticketsAvailable) {
+	public Showtime(long id, String movieName, LocalTime time, int theaterNumber, int ticketsAvailable) {
 		super();
 		this.id = id;
 		this.movieName = movieName;
-		this.showtime = showtime;
+		this.time = time;
 		this.theaterNumber = theaterNumber;
 		this.ticketsAvailable = ticketsAvailable;
 	}
@@ -63,11 +66,11 @@ public class Showtimes {
 	public void setMovieName(String movieName) {
 		this.movieName = movieName;
 	}
-	public LocalTime getShowtime() {
-		return showtime;
+	public LocalTime getTime() {
+		return time;
 	}
-	public void setShowtime(LocalTime showtime) {
-		this.showtime = showtime;
+	public void setTime(LocalTime showtime) {
+		this.time = showtime;
 	}
 	public int getTheaterNumber() {
 		return theaterNumber;
@@ -83,7 +86,7 @@ public class Showtimes {
 	}
 	@Override
 	public String toString() {
-		return "Showtimes [id=" + id + ", movieName=" + movieName + ", showtime=" + showtime + ", theaterNumber="
+		return "Showtimes [id=" + id + ", movieName=" + movieName + ", time=" + time + ", theaterNumber="
 				+ theaterNumber + ", ticketsAvailable=" + ticketsAvailable + "]";
 	}
 }

@@ -8,7 +8,7 @@ package projmays.controller;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import projmays.beans.Showtimes;
+import projmays.beans.Showtime;
 
 /**
  * @author Adell
@@ -17,8 +17,8 @@ import projmays.beans.Showtimes;
 @Configuration
 public class BeanConfiguration {
 	@Bean
-	public Showtimes showtimes() {
-		Showtimes bean = new Showtimes();
+	public Showtime showtime() {
+		Showtime bean = new Showtime();
 		return bean;
 	}
 }

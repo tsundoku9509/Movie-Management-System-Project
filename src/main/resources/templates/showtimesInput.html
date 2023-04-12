@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Input Showtime</title>
+	<script></script>
+</head>
+<body>
+	<form th:object="${newShowtime}" th:action="@{/addShowtime}" method=POST>
+		Movie Name: <input name="movieName" size="20" th:field="*{movieName}"> <br />
+		Showtime: <input type="time" name="time" th:object="${time}"><br />
+		Theater Number: <input name="theaterNumber" size="10" th:field="*{theaterNumber}"><br />
+		Tickets Available: <input name="ticketsAvailable" size="5" th:field="*{ticketsAvailable}"><br />
+		<input name="submit" type="submit" value="submit"/> <!-- *{showtime} onclick="validateFields()" !! update/{id}(id=${newShowtime.id}) -->
+	</form>
+	<span></span><br>
+	<a href="viewShowtimes">View Showtimes</a>
+</body>
+</html>
