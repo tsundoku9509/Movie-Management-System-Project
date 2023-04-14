@@ -41,9 +41,8 @@ public class WebController {
 	@GetMapping("/addShowtime")
 	public String addShowtime(Model model) {
 		Showtime s = new Showtime();
-		int time = 0;
 		model.addAttribute("newShowtime", s);
-		model.addAttribute("time", time);
+		model.addAttribute("showtimes", showtimesRepo.findAll());
 		return "showtimesInput";
 	}
 	@PostMapping("/addShowtime")

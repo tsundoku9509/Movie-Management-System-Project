@@ -25,7 +25,7 @@ public class Showtime {
 	private long id;
 	@Column(name="movie_name")
 	private String movieName;
-	@Column(name="showtime")
+	@Column(name="time")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalTime time;
 	@Column(name="theater_number")
