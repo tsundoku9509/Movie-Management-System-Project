@@ -9,6 +9,10 @@
 		timesUsed = /*[[${timesUsed}]]*/ 'default';
 	</script>
 	<script>
+		function invalidField(inField){
+			inField.style.backgroundColor = "#E55D40";
+			event.preventDefault();
+		}
 		function validateFields(){
 			let movieNameField = document.querySelector("input[name = 'movieName']");
 			let timeField = document.querySelector("input[name = 'time']");
@@ -16,33 +20,21 @@
 			let errorMessage = "";
 			movieNameField.style.backgroundColor = "#FFFFFF";
 			timeField.style.backgroundColor = "#FFFFFF";
+			theaterNumberField.style.backgroundColor = "#FFFFFF";
 			if(movieNameField.value == ""){
-				errorMessage += "Movie Name field is empty";
-				movieNameField.style.backgroundColor = "#E55D40";
-				event.preventDefault();
+				errorMessage += "Movie Name field is empty. ";
+				invalidField(movieNameField);
 			}
 			//We can change this but as of now, the theater is open from 8 AM - 10 PM
 			if(timeField.value == "" || (parseInt(timeField.value.substring(0, 2)) < 8 || parseInt(timeField.value.substring(0, 2)) > 22)){
-				timeField.style.backgroundColor = "#E55D40";
-				event.preventDefault();
-				if(errorMessage == ""){
-					errorMessage += "The theater is not open during that time";
-				}
-				else{
-					errorMessage += " and the theater is not open during that time";
-				}
+				errorMessage += "The theater is not open during that time. ";
+				invalidField(timeField);
 			}
 			for(let i = 0; i < timesUsed[parseInt(theaterNumberField.value) - 1].length; i++){
 				if(parseInt(timeField.value.substring(0, 2)) < parseInt(timesUsed[parseInt(theaterNumberField.value) - 1][i].substring(0,2)) + 2 && parseInt(timeField.value.substring(0, 2)) > parseInt(timesUsed[parseInt(theaterNumberField.value) - 1][i].substring(0,2)) - 2){
-					timesUsed[parseInt(theaterNumberField.value)]
-					theaterNumberField.style.backgroundColor = "#E55D40";
-					event.preventDefault();
-					if(errorMessage == ""){
-						errorMessage += "That theater is already in use at that time";
-					}
-					else{
-						errorMessage += " and that theater is already in use at that time";
-					}
+					errorMessage += "That theater is already in use at that time. ";
+					invalidField(theaterNumberField);
+					break;
 				}
 			}
 			document.querySelector('span').innerHTML = errorMessage;
@@ -51,18 +43,17 @@
 </head>
 <body>
 	<form th:object="${newShowtime}" th:action="@{/addShowtime}" method=POST>
-		Movie Name: <input name="movieName" size="20" th:field="*{movieName}"> <br />
+		Movie Name: <input name="movieName" size="20" th:field="*{movieName}" maxlength="30"> <br />
 		Showtime: <input type="time" name="time" step="3600" th:field="*{time}" onchange="if(parseInt(value.substring(3,5)) != 0){value = value.substring(0,2) + ':00'}"><br />
-		<!-- We can change this but as of now, only theaters 1 - 8 are valid theaters -->
+		<!-- We can change this but as of now, only theaters 1 - 4 are valid theaters -->
 		Theater Number: <input type="number" name="theaterNumber" size="10" th:field="*{theaterNumber}" min="1" max="4" onchange="if(value<1){value=1;} else if(value>4){value=4;}"><br/>
 		<!-- We can change this but as of now, a specific showtimes can only be initialized with 1 - 60 available tickets -->
 		Tickets Available: <input type="number" name="ticketsAvailable" size="5" th:field="*{ticketsAvailable}" min="1" max="60" onchange="if(value<1){value=1;} else if(value>60){value=60;}"><br />
-		<input name="submit" type="submit" value="submit" onclick="validateFields()"/> <!-- !! update/{id}(id=${newShowtime.id}) -->
+		<input name="submit" type="submit" value="submit" onclick="validateFields()"/>
 		<script>
 			document.querySelector("input[name = 'theaterNumber']").value = 1;
 			document.querySelector("input[name = 'ticketsAvailable']").value = 1;
 		</script>
-		<!-- <p id="shows" th:text="${showtimes}" /> -->
 	</form>
 	<span></span><br>
 	<a href="viewShowtimes">View Showtimes</a>

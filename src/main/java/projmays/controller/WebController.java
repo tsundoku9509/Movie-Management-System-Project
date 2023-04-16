@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import projmays.repository.ShowtimesRepository;
 import projmays.repository.UserRepository;
@@ -37,29 +38,36 @@ public class WebController {
 	@Autowired
 	UserRepository userRepo;
 	
+	User currentUser = new User();
+	
 	@GetMapping({"/", "signIn"})
 	public String userSignIn(Model model) {
 		List<User> users = userRepo.findAll();
 		model.addAttribute("users", users);
 		return "signIn";
 	}
+	@PostMapping("/signIn")
+	public String userSignIn(@RequestParam("id") long id, Model model) {
+		currentUser = userRepo.getReferenceById(id);
+		System.out.println(currentUser.toString());
+		return viewShowtimes(model);
+	}
 	@GetMapping("/createUser")
 	public String addUser(Model model) {
 		User u = new User();
 		model.addAttribute("newUser", u);
+		List<User> users = userRepo.findAll();
+		model.addAttribute("users", users);
 		return "userInput";
 	}
 	@PostMapping("/createUser")
-	public String addShowtime(@ModelAttribute User u, Model model) {
+	public String addUser(@ModelAttribute User u, Model model) {
 		userRepo.save(u);
 		return userSignIn(model);
 	}
 	
 	@GetMapping("/viewShowtimes")
 	public String viewShowtimes(Model model) {
-		if(showtimesRepo.findAll().isEmpty()) {
-			return addShowtime(model);
-		}
 		model.addAttribute("showtimes", showtimesRepo.findAll());
 		return "showtimesResults";
 	}

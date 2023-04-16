@@ -35,8 +35,22 @@ public class User {
 	private String favoriteGenre;
 	@Column(name = "tickets_purchased")
 	private int numTicketsPurchased;
+	@Column(name = "user_persmissions")
+	private int userPermissions;
 	public User() {
 		super();
+	}
+	public User(int id, String firstName, String lastName, String username, String password, String favoriteGenre,
+			int numTicketsPurchased, int userPermissions) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.favoriteGenre = favoriteGenre;
+		this.numTicketsPurchased = numTicketsPurchased;
+		this.userPermissions = userPermissions;
 	}
 	public User(int id, String firstName, String lastName, String username, String password, String favoriteGenre,
 			int numTicketsPurchased) {
@@ -48,6 +62,7 @@ public class User {
 		this.password = password;
 		this.favoriteGenre = favoriteGenre;
 		this.numTicketsPurchased = numTicketsPurchased;
+		this.userPermissions = 0;
 	}
 	public User(String firstName, String lastName, String password, String favoriteGenre, int numTicketsPurchased) {
 		super();
@@ -56,6 +71,7 @@ public class User {
 		this.password = password;
 		this.favoriteGenre = favoriteGenre;
 		this.numTicketsPurchased = numTicketsPurchased;
+		this.userPermissions = 0;
 	}
 	public User(String firstName, String lastName, String password, int numTicketsPurchased) {
 		super();
@@ -63,12 +79,14 @@ public class User {
 		this.lastName = lastName;
 		this.password = password;
 		this.numTicketsPurchased = numTicketsPurchased;
+		this.userPermissions = 0;
 	}
 	public User(String firstName, String lastName, String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
+		this.userPermissions = 0;
 	}
 	
 	public int getId() {

@@ -16,22 +16,24 @@
 			for(let i = 0; i < users.length; i++){
 				if(usernameTextField.value == users[i].username && passwordTextField.value == users[i].password){
 					match = true;
+					document.querySelector("input[name = 'id']").value = users[i].id;
 				}
 			}
 			if(!match){
 				message = "Account not found";
+				event.preventDefault();
 			}
 			document.querySelector("span").innerHTML = message;
-			event.preventDefault();
 		}
 	</script>
 </head>
 <body>
-	<form>
+	<form th:action="@{/signIn}" method=POST>
   		<label for="username">Username:</label><br>
-  		<input type="text" id="username" name="username"><br>
+  		<input type="text" id="username" name="username" maxlength="15"><br>
   		<label for="password">Password:</label><br>
-  		<input type="text" id="password" name="password"><br>
+  		<input type="text" id="password" name="password" maxlength="15"><br>
+  		<input type="hidden" id="id" name="id"><br>
   		<input type="submit" value="Submit" onclick="validateFields()">
 	</form> 
 	<span></span><br>

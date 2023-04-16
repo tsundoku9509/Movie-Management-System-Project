@@ -3,14 +3,59 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Create an Account</title>
+	<script th:inline="javascript">
+		let users = new Array();
+		users = /*[[${users}]]*/ 'default';
+	</script>
+	<script>
+		function invalidField(inField){
+			inField.style.backgroundColor = "#E55D40";
+			event.preventDefault();
+		}
+		function validateFields(){
+			let firstNameTextField = document.querySelector("input[name = 'firstName']");
+			let lastNameTextField = document.querySelector("input[name = 'lastName']");
+			let usernameTextField = document.querySelector("input[name = 'username']");
+			let passwordTextField = document.querySelector("input[name = 'password']");
+			let message = "";
+			firstNameTextField.style.backgroundColor = "#FFFFFF";
+			lastNameTextField.style.backgroundColor = "#FFFFFF";
+			usernameTextField.style.backgroundColor = "#FFFFFF";
+			passwordTextField.style.backgroundColor = "#FFFFFF";
+			if(!/^[a-zA-Z]+$/.test(firstNameTextField.value) || firstNameTextField.value == ""){
+				message += "Invalid first name. ";
+				invalidField(firstNameTextField);
+			}
+			if(!/^[a-zA-Z]+$/.test(lastNameTextField.value) || lastNameTextField.value == ""){
+				message += "Invalid last name. ";
+				invalidField(lastNameTextField);
+			}
+			for(let i = 0; i < users.length; i++){
+				if(usernameTextField.value == users[i].username){
+					message += "Username already exists. ";
+					invalidField(usernameTextField);
+				}
+			}
+			if(usernameTextField.value == "" || !/^[a-zA-Z0-9]+$/.test(usernameTextField.value)){
+				message += "Invalid username. ";
+				invalidField(usernameTextField);
+			}
+			if(passwordTextField.value == ""){
+				message += "Invalid password. ";
+				invalidField(passwordTextField);
+			}
+			document.querySelector("span").innerHTML = message;
+		}
+	</script>
 </head>
 <body>
 	<form th:object="${newUser}" th:action="@{/createUser}" method=POST>
-		First Name: <input name="firstName" size="20" th:field="*{firstName}"> <br />
-		Last Name: <input name="lastName" size="20" th:field="*{lastName}"> <br />
-		Username: <input name="username" size="10" th:field="*{username}"><br/>
-		Password: <input name="password" size="10" th:field="*{password}"><br />
-		<input name="submit" type="submit" value="submit" /><!-- onclick="validateFields()" -->
+		First Name: <input name="firstName" size="20" th:field="*{firstName}" maxlength="15"> <br />
+		Last Name: <input name="lastName" size="20" th:field="*{lastName}" maxlength="15"> <br />
+		Username: <input name="username" size="10" th:field="*{username}" maxlength="15"><br/>
+		Password: <input name="password" size="10" th:field="*{password}" maxlength="15"><br />
+		<input name="submit" type="submit" value="Submit" onclick="validateFields()"/>
 	</form>
+	<span></span>
 </body>
 </html>

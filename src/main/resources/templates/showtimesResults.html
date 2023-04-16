@@ -1,23 +1,60 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>View All Showtimes</title>
+	<meta charset="ISO-8859-1">
+	<title>View All Showtimes</title>
+	<style>
+		table {
+	  		font-family: arial, sans-serif;
+	  		border-collapse: collapse;
+	  		width: 80%;
+		}
+		td, th {
+	  		border: 1px solid #000000;
+	  		text-align: center;
+	  		padding: 8px;
+		}
+		th {
+	  		background-color: #dddddd;
+		}
+	</style>
+	<script th:inline="javascript">
+		let showtimes = new Array();
+		showtimes = /*[[${showtimes}]]*/ 'default';
+	</script>
+	<script>
+		function ticketsAvailable(){
+			let checkedShowtime = document.querySelector("input[type=radio]:checked");
+			for(let i = 0; i < showtimes.length; i++){
+				if(checkedShowtime.value == showtimes[i].id){
+					return showtimes[i].ticketsAvailable;
+				}
+			}
+		}
+	</script>
 </head>
 <body>
 	<form>
 		<table>
-			<tr th:each="currentShowtimes : ${showtimes}">
-				<td th:text="${currentShowtimes.id}" />
-				<td th:text="${currentShowtimes.movieName}" />
-				<td th:text="${currentShowtimes.time}" />
-				<td th:text="${currentShowtimes.theaterNumber}" />
-				<td th:text="${currentShowtimes.ticketsAvailable}" />
-				<!-- <td><a th:href="@{/edit/{id}(id=${currentHouse.id})}">Edit</a></td>
-				<td><a th:href="@{/delete/{id}(id=${currentHouse.id})}">Delete</a></td> -->
+			<tr>
+				<th>Movie Title</th>
+				<th>Time</th>
+				<th>Theater Number</th>
+				<th>Tickets Available</th>
+			</tr>
+			<tr th:each="currentShowtime : ${showtimes}">
+				<td th:text="${currentShowtime.movieName}" />
+				<td th:text="${currentShowtime.time}" />
+				<td th:text="${currentShowtime.theaterNumber}" />
+				<td th:text="${currentShowtime.ticketsAvailable}" />
+				<td><input type="radio" name="id" th:value="${currentShowtime.id}" checked></td>
+				<!-- <td><a th:href="@{/delete/{id}(id=${currentHouse.id})}">Delete</a></td> onchange="if(value<1){value=1;} else if(value>4){value=4;}" th:href="@{/purchase/{id}(id=${currentShowtime.id})}"-->
 			</tr>
 		</table>
+		<input type="number" name="numTickets" size="1" min="1" onchange="if(value<1){value=1;} else if(value>ticketsAvailable()){value=ticketsAvailable();}"><br><button>Purchase Tickets</button>
 	</form>
+	<script>
+		document.querySelector("input[name = 'numTickets']").value = 1;
+	</script>
 	<a href="../addShowtime">Add a new showtime</a>
 </body>
 </html>
