@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Sign In</title>
+	<script th:inline="javascript">
+		let users = new Array();
+		users = /*[[${users}]]*/ 'default';
+	</script>
+	<script>
+		function validateFields(){
+			let usernameTextField = document.querySelector("input[name = 'username']");
+			let passwordTextField = document.querySelector("input[name = 'password']");
+			let message = "";
+			let match = false;
+			for(let i = 0; i < users.length; i++){
+				if(usernameTextField.value == users[i].username && passwordTextField.value == users[i].password){
+					match = true;
+				}
+			}
+			if(!match){
+				message = "Account not found";
+			}
+			document.querySelector("span").innerHTML = message;
+			event.preventDefault();
+		}
+	</script>
+</head>
+<body>
+	<form>
+  		<label for="username">Username:</label><br>
+  		<input type="text" id="username" name="username"><br>
+  		<label for="password">Password:</label><br>
+  		<input type="text" id="password" name="password"><br>
+  		<input type="submit" value="Submit" onclick="validateFields()">
+	</form> 
+	<span></span><br>
+	<a href="createUser">Create an Account</a><br/>
+</body>
+</html>
