@@ -5,7 +5,10 @@
  */
 package projmays.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import projmays.beans.Showtime;
@@ -16,5 +19,5 @@ import projmays.beans.Showtime;
  */
 @Repository
 public interface ShowtimesRepository  extends JpaRepository<Showtime, Long>{
-	
+	List<Showtime> findByOrderMovieNameAsc(); //This should sort the showtimes in alphabetical order of the movie name as a default
 }
