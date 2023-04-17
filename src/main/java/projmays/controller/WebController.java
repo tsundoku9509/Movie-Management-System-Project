@@ -15,9 +15,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -110,4 +112,18 @@ public class WebController {
 		showtimesRepo.save(s);
 		return viewShowtimes(model);
 	}
+	
+	//Deletes A ShowTime
+	@GetMapping("/delete/{id}")
+		public String delteUser(@PathVariable("id") long id, Model model) {
+			Showtime s = showtimesRepo.findById(id).orElse(null);
+			showtimesRepo.delete(s);
+			return viewShowtimes(model);
+	}
+	
+	//Option to sort by something other than movie title
+	/*@GetMapping()
+		Once a button is pushed on the showtimesResults page, I should have a method that will allow sorting by genre
+		Need to set up a button and a method.  ~Adelle
+		*/
 }
