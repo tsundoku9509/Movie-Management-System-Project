@@ -32,6 +32,19 @@ public class Showtime {
 	private int theaterNumber;
 	@Column(name="tickets_available")
 	private int ticketsAvailable;
+	@Column(name="price_is_discounted")
+	private boolean isDiscounted;
+	
+	public Showtime(long id, String movieName, LocalTime time, int theaterNumber, int ticketsAvailable,
+			boolean isDiscounted) {
+		super();
+		this.id = id;
+		this.movieName = movieName;
+		this.time = time;
+		this.theaterNumber = theaterNumber;
+		this.ticketsAvailable = ticketsAvailable;
+		this.isDiscounted = isDiscounted;
+	}
 	public Showtime() {
 		super();
 	}
@@ -84,9 +97,18 @@ public class Showtime {
 	public void setTicketsAvailable(int ticketsAvailable) {
 		this.ticketsAvailable = ticketsAvailable;
 	}
+	
+	public boolean isDiscounted() {
+		return isDiscounted;
+	}
+	public void setDiscounted(boolean isDiscounted) {
+		this.isDiscounted = isDiscounted;
+	}
+	
 	@Override
 	public String toString() {
-		return "Showtimes [id=" + id + ", movieName=" + movieName + ", time=" + time + ", theaterNumber="
-				+ theaterNumber + ", ticketsAvailable=" + ticketsAvailable + "]";
+		return "Showtime [id=" + id + ", movieName=" + movieName + ", time=" + time + ", theaterNumber=" + theaterNumber
+				+ ", ticketsAvailable=" + ticketsAvailable + ", isDiscounted=" + isDiscounted + "]";
 	}
+	
 }
