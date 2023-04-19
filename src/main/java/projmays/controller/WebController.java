@@ -121,9 +121,4 @@ public class WebController {
 			return viewShowtimes(model);
 	}
 	
-	//Option to sort by something other than movie title
-	/*@GetMapping()
-		Once a button is pushed on the showtimesResults page, I should have a method that will allow sorting by genre
-		Need to set up a button and a method.  ~Adelle
-		*/
 }
