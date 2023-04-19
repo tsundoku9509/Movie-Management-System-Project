@@ -84,6 +84,8 @@ public class PopMoviesAndShowtimes {
 
 	public void setPopTheaterNum(int popTheaterNum) {
 		this.popTheaterNum = popTheaterNum;
+		BusiestTheater busy = new BusiestTheater();
+		busy.setBusiestTheaterNum(popTheaterNum);
 	}
 
 	@Override
