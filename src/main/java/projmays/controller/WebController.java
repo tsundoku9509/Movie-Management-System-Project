@@ -128,5 +128,4 @@ public class WebController {
 		System.out.println(u.toString());
 		return viewShowtimes(model);
 	}
-	
 }
