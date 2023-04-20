@@ -19,5 +19,5 @@ import projmays.beans.Showtime;
  */
 @Repository
 public interface ShowtimesRepository  extends JpaRepository<Showtime, Long>{
-	List<Showtime> findByOrderMovieNameAsc(); //This should sort the showtimes in alphabetical order of the movie name as a default
+	//List<Showtime> findByOrderMovieNameAsc(); //This should sort the showtimes in alphabetical order of the movie name as a default
 }

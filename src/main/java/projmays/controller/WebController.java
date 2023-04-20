@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,7 +39,7 @@ public class WebController {
 	@Autowired
 	UserRepository userRepo;
 	
-	User currentUser = new User();
+	long currentUserId;
 	
 	@GetMapping({"/", "signIn"})
 	public String userSignIn(Model model) {
@@ -50,8 +49,7 @@ public class WebController {
 	}
 	@PostMapping("/signIn")
 	public String userSignIn(@RequestParam("id") long id, Model model) {
-		currentUser = userRepo.getReferenceById(id);
-		System.out.println(currentUser.toString());
+		currentUserId = id;
 		return viewShowtimes(model);
 	}
 	@GetMapping("/createUser")
@@ -115,10 +113,20 @@ public class WebController {
 	
 	//Deletes A ShowTime
 	@GetMapping("/delete/{id}")
-		public String delteUser(@PathVariable("id") long id, Model model) {
+		public String deleteShowtime(@PathVariable("id") long id, Model model) {
 			Showtime s = showtimesRepo.findById(id).orElse(null);
 			showtimesRepo.delete(s);
 			return viewShowtimes(model);
+	}
+	@PostMapping("/purchaseTickets")
+	public String purchaseTickets(@RequestParam("id") long id, @RequestParam("ticketQuantity") int quantity, Model model) {
+		Showtime s = showtimesRepo.findById(id).orElse(null);
+		User u = userRepo.findById(currentUserId).orElse(null);
+		System.out.println(s.toString());
+		u.addTicket(s);
+		userRepo.save(u);
+		System.out.println(u.toString());
+		return viewShowtimes(model);
 	}
 	
 }
