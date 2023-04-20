@@ -13,6 +13,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -21,7 +22,7 @@ import jakarta.persistence.Table;
 @Embeddable
 public class Showtime {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private long id;
 	@Column(name="movie_name")
 	private String movieName;
@@ -32,8 +33,8 @@ public class Showtime {
 	private int theaterNumber;
 	@Column(name="tickets_available")
 	private int ticketsAvailable;
-	@Column(name="price_is_discounted")
-	private boolean isDiscounted;
+	@Column(name="is_discounted")
+	private boolean isDiscounted = false;
 	
 	public Showtime(long id, String movieName, LocalTime time, int theaterNumber, int ticketsAvailable,
 			boolean isDiscounted) {
@@ -108,7 +109,7 @@ public class Showtime {
 	@Override
 	public String toString() {
 		return "Showtime [id=" + id + ", movieName=" + movieName + ", time=" + time + ", theaterNumber=" + theaterNumber
-				+ ", ticketsAvailable=" + ticketsAvailable + ", isDiscounted=" + isDiscounted + "]";
+				+ ", ticketsAvailable=" + ticketsAvailable +  "]";//", isDiscounted=" + isDiscounted +
 	}
 	
 }
