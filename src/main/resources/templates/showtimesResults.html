@@ -1,6 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="ISO-8859-1">
+	<meta name="Author" value="Jacoby King">
 	<title>View All Showtimes</title>
 	<style>
 		table {
@@ -30,16 +31,37 @@
 				}
 			}
 		}
-		function getSelectedId(){
+		function setNewMax(){
 			let ticketQuantityField = document.querySelector("input[name=ticketQuantity]");
+			document.querySelector("input[name=ticketQuantity]").hidden = false;
+			document.querySelector("input[name=purchaseTickets]").hidden = false;
 			if(ticketQuantityField.value > ticketsAvailable()){
 				ticketQuantityField.value = ticketsAvailable();
 			}
+			else if(ticketQuantityField.value == 0){
+				ticketQuantityField.value = 1;
+			}
+			if(ticketsAvailable() == 0){
+				document.querySelector("input[name=ticketQuantity]").hidden = true;
+				document.querySelector("input[name=purchaseTickets]").hidden = true;
+			}
 			ticketQuantityField.max = ticketsAvailable();
+		}
+		function loadPage(){
+			if(showtimes.length == 0){
+				document.querySelector("span").innerHTML = "No Showtimes Available Today";
+				document.querySelector("input[name=ticketQuantity]").hidden = true;
+				document.querySelector("input[name=purchaseTickets]").hidden = true;
+			}
+			else{
+				document.querySelector("input[name = 'ticketQuantity']").value = 1;
+				document.querySelector("input[name=id]").checked = true;
+				setNewMax();
+			}
 		}
 	</script>
 </head>
-<body>
+<body onload="loadPage()">
 	<form th:action="@{/purchaseTickets}" method=POST>
 		<table>
 			<tr>
@@ -47,18 +69,21 @@
 				<th>Time</th>
 				<th>Theater Number</th>
 				<th>Tickets Available</th>
+				<th>Selected Showtime<th>
 			</tr>
 			<tr th:each="currentShowtime : ${showtimes}">
 				<td th:text="${currentShowtime.movieName}" />
 				<td th:text="${currentShowtime.time}" />
 				<td th:text="${currentShowtime.theaterNumber}" />
 				<td th:text="${currentShowtime.ticketsAvailable}" />
-				<td><input type="radio" name="id" th:value="${currentShowtime.id}" checked onchange="getSelectedId()"></td>
+				<td><input type="radio" name="id" th:value="${currentShowtime.id}" onchange="setNewMax()"></td>
 				<td><a th:href="@{/delete/{id}(id=${currentShowtime.id})}">Delete</a></td>
 				<!-- <td><a th:href="@{/delete/{id}(id=${currentHouse.id})}">Delete</a></td> onchange="if(value<1){value=1;} else if(value>4){value=4;}" th:href="@{/purchase/{id}(id=${currentShowtime.id})}"-->
 			</tr>
 		</table>
-		<input type="number" name="ticketQuantity" size="1" min="1" onchange="if(value<1){value=1;} else if(value>ticketsAvailable()){value=ticketsAvailable();}"><br><input type="submit" name="purchaseTickets" value="Purchase Tickets"><br>
+		<span></span><br>
+		<input type="number" name="ticketQuantity" size="1" min="1" onchange="if(value<1){value=1;} else if(value>ticketsAvailable()){value=ticketsAvailable();}"><br>
+		<input type="submit" name="purchaseTickets" value="Purchase Tickets"><br>
 		<button onclick="timeSort()">Sort by Time</button>
 		<script> 
 			document.querySelector("input[name = 'ticketQuantity']").value = 1;
@@ -68,6 +93,7 @@
 			}
 		</script>	
 	</form>
-	<a href="../addShowtime">Add a new showtime</a>
+	<a href="../addShowtime">Add a New Showtime</a>
+	<a href="../viewTicketsPurchased">View Your Current Tickets</a>
 </body>
 </html>
