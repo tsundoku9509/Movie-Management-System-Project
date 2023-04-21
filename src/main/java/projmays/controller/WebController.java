@@ -65,7 +65,6 @@ public class WebController {
 		userRepo.save(u);
 		return userSignIn(model);
 	}
-	
 	@GetMapping("/viewShowtimes")
 	public String viewShowtimes(Model model) {
 		model.addAttribute("showtimes", showtimesRepo.findAll());
@@ -110,7 +109,6 @@ public class WebController {
 		showtimesRepo.save(s);
 		return viewShowtimes(model);
 	}
-	
 	//Deletes A ShowTime
 	@GetMapping("/delete/{id}")
 		public String deleteShowtime(@PathVariable("id") long id, Model model) {
@@ -122,10 +120,20 @@ public class WebController {
 	public String purchaseTickets(@RequestParam("id") long id, @RequestParam("ticketQuantity") int quantity, Model model) {
 		Showtime s = showtimesRepo.findById(id).orElse(null);
 		User u = userRepo.findById(currentUserId).orElse(null);
-		System.out.println(s.toString());
-		u.addTicket(s);
+		for(int i = 0; i < quantity; i++) {
+			u.addTicket(s);
+		}
+		s.setTicketsAvailable(s.getTicketsAvailable() - quantity);
 		userRepo.save(u);
+		showtimesRepo.save(s);
+		//Delete at some point
 		System.out.println(u.toString());
 		return viewShowtimes(model);
+	}
+	@GetMapping("/viewTicketsPurchased")
+	public String viewTicketsPurchased(Model model) {
+		User u = userRepo.findById(currentUserId).orElse(null);
+		model.addAttribute("user", u);
+		return "purchasedTicketsResults";
 	}
 }

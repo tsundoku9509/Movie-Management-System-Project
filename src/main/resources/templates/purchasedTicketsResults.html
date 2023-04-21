@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<meta name="Author" value="Jacoby King">
+	<title>View Your Current Tickets</title>
+	<style>
+		table {
+	  		font-family: arial, sans-serif;
+	  		border-collapse: collapse;
+	  		width: 80%;
+		}
+		td, th {
+	  		border: 1px solid #000000;
+	  		text-align: center;
+	  		padding: 8px;
+		}
+		th {
+	  		background-color: #dddddd;
+		}
+	</style>
+	<script th:inline="javascript">
+		let user = /*[[${user}]]*/ 'default';
+	</script>
+	<script>
+		
+	</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>Movie Title</th>
+			<th>Time</th>
+			<th>Theater Number</th>
+		</tr>
+		<tr th:each="currentShowtime : ${user.ticketsPurchased}">
+			<td th:text="${currentShowtime.movieName}" />
+			<td th:text="${currentShowtime.time}" />
+			<td th:text="${currentShowtime.theaterNumber}" />
+		</tr>
+	</table>
+	<a href="../viewShowtimes">View Showtimes</a>
+</body>
+</html>
