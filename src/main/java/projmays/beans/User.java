@@ -8,7 +8,6 @@ package projmays.beans;
 import java.util.List;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,8 +21,7 @@ import jakarta.persistence.Table;
  *
  */
 @Entity
-@Table(name = "user")
-@Embeddable
+@Table(name = "users")
 public class User {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)

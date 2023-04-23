@@ -28,16 +28,18 @@
 <body>
 	<table>
 		<tr>
-			<th>Movie Title</th>
+			<th>Title</th>
+			<th>Genre</th>
 			<th>Time</th>
 			<th>Theater Number</th>
 		</tr>
 		<tr th:each="currentShowtime : ${user.ticketsPurchased}">
-			<td th:text="${currentShowtime.movieName}" />
+			<td th:text="${currentShowtime.movie.title}" />
+			<td th:text="${currentShowtime.movie.genre}" />
 			<td th:text="${currentShowtime.time}" />
 			<td th:text="${currentShowtime.theaterNumber}" />
 		</tr>
 	</table>
-	<a href="../viewShowtimes">View Showtimes</a>
+	<a href="viewShowtimes">View Showtimes</a>
 </body>
 </html>
