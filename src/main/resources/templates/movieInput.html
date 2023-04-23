@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<meta name="Author" value="Jacoby King">
+	<title>Insert Movie</title>
+	<script th:inline="javascript">
+		let currentMovies = /*[[${currentMovies}]]*/ 'default';
+	</script>
+	<script>
+		let genres = ["Action", "Adventure", "Comedy", "Documentary", "Drama", "Horror", "Musical", "Romance", "Thriller"]
+		function validateFields(){
+			let movieTitleField = document.querySelector("#movieTitle");
+			let errorMessage = "";
+			console.log(movieTitleField.value);
+			if(movieTitleField.value == ""){
+				errorMessage += "Movie title field is empty.";
+				movieTitleField.style.backgroundColor = "#E55D40";
+				event.preventDefault();
+			}
+			else{
+				for(let i = 0; i < currentMovies.length; i++){
+					if(movieTitleField.value == currentMovies[i].title){
+						errorMessage += "Movie already exists. ";
+						movieTitleField.style.backgroundColor = "#E55D40";
+						event.preventDefault();
+					}
+				}
+			}
+			document.querySelector('span').innerHTML = errorMessage;
+		}
+	</script>
+</head>
+<body>
+	<form th:object="${newMovie}" th:action="@{/addMovie}" method=POST>
+		Movie Title: <input name="movieTitle" id="movieTitle" size="20" th:field="*{title}" maxlength="30"><br />
+		Genre: 
+		<select name="movieGenre" th:field="*{genre}">
+			<script>genres.forEach(genre => document.write("<option value='" + genre + "'>" + genre + "</option>"))</script>
+		</select><br />
+		<input name="submit" type="submit" value="Submit" onclick="validateFields()"/>
+	</form>
+	<span></span><br>
+	<a href="viewShowtimes">View Showtimes</a>
+</body>
+</html>

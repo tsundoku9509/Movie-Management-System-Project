@@ -15,6 +15,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,8 +26,9 @@ public class Showtime {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private long id;
-	@Column(name="movie_name")
-	private String movieName;
+	@ManyToOne
+	@JoinColumn(name = "movie")
+	private Movie movie;
 	@Column(name="time")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalTime time;
@@ -36,11 +39,11 @@ public class Showtime {
 	@Column(name="is_discounted")
 	private boolean isDiscounted = false;
 	
-	public Showtime(long id, String movieName, LocalTime time, int theaterNumber, int ticketsAvailable,
+	public Showtime(long id, Movie movie, LocalTime time, int theaterNumber, int ticketsAvailable,
 			boolean isDiscounted) {
 		super();
 		this.id = id;
-		this.movieName = movieName;
+		this.movie = movie;
 		this.time = time;
 		this.theaterNumber = theaterNumber;
 		this.ticketsAvailable = ticketsAvailable;
@@ -49,21 +52,21 @@ public class Showtime {
 	public Showtime() {
 		super();
 	}
-	public Showtime(String movieName) {
+	public Showtime(Movie movie) {
 		super();
-		this.movieName = movieName;
+		this.movie = movie;
 	}
-	public Showtime(String movieName, LocalTime time, int theaterNumber, int ticketsAvailable) {
+	public Showtime(Movie movie, LocalTime time, int theaterNumber, int ticketsAvailable) {
 		super();
-		this.movieName = movieName;
+		this.movie = movie;
 		this.time = time;
 		this.theaterNumber = theaterNumber;
 		this.ticketsAvailable = ticketsAvailable;
 	}
-	public Showtime(long id, String movieName, LocalTime time, int theaterNumber, int ticketsAvailable) {
+	public Showtime(long id, Movie movie, LocalTime time, int theaterNumber, int ticketsAvailable) {
 		super();
 		this.id = id;
-		this.movieName = movieName;
+		this.movie = movie;
 		this.time = time;
 		this.theaterNumber = theaterNumber;
 		this.ticketsAvailable = ticketsAvailable;
@@ -74,11 +77,11 @@ public class Showtime {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getMovieName() {
-		return movieName;
+	public Movie getMovie() {
+		return movie;
 	}
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
+	public void setMovie(Movie movie) {
+		this.movie = movie;
 	}
 	public LocalTime getTime() {
 		return time;
@@ -108,7 +111,7 @@ public class Showtime {
 	
 	@Override
 	public String toString() {
-		return "Showtime [id=" + id + ", movieName=" + movieName + ", time=" + time + ", theaterNumber=" + theaterNumber
+		return "Showtime [id=" + id + ", movie=" + movie + ", time=" + time + ", theaterNumber=" + theaterNumber
 				+ ", ticketsAvailable=" + ticketsAvailable +  "]";//", isDiscounted=" + isDiscounted +
 	}
 	

@@ -65,14 +65,16 @@
 	<form th:action="@{/purchaseTickets}" method=POST>
 		<table>
 			<tr>
-				<th>Movie Title</th>
+				<th>Title</th>
+				<th>Genre</th>
 				<th>Time</th>
 				<th>Theater Number</th>
 				<th>Tickets Available</th>
 				<th>Selected Showtime<th>
 			</tr>
 			<tr th:each="currentShowtime : ${showtimes}">
-				<td th:text="${currentShowtime.movieName}" />
+				<td th:text="${currentShowtime.movie.title}" />
+				<td th:text="${currentShowtime.movie.genre}" />
 				<td th:text="${currentShowtime.time}" />
 				<td th:text="${currentShowtime.theaterNumber}" />
 				<td th:text="${currentShowtime.ticketsAvailable}" />
@@ -93,7 +95,7 @@
 			}
 		</script>	
 	</form>
-	<a href="../addShowtime">Add a New Showtime</a>
-	<a href="../viewTicketsPurchased">View Your Current Tickets</a>
+	<a href="addShowtime">Add a New Showtime</a>
+	<a href="viewTicketsPurchased">View Your Current Tickets</a>
 </body>
 </html>
