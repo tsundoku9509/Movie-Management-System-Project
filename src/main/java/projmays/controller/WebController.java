@@ -145,4 +145,19 @@ public class WebController {
 		System.out.println(m.toString());
 		return addShowtime(model);
 	}
+	
+	//Edit Showtimes
+	@GetMapping("/edit/{id}")
+		public String showUpdateShowtime(@PathVariable("id") long id, Model model) {
+			Showtime s = showtimesRepo.findById(id).orElse(null);
+			model.addAttribute("newShowtime", s);
+			return "showtimesInput"; 
+	}
+	
+	//This should update the showtime list with any changes
+	@PostMapping("/update/{id}")
+		public String reviseShowtime(Showtime s, Model model)  {
+		showtimesRepo.save(s);
+		return viewShowtimes(model);
+	}
 }
