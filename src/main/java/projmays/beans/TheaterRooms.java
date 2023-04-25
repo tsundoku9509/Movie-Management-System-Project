@@ -29,14 +29,11 @@ public class TheaterRooms {
 	@Column(name = "theater")
 	// This string allows user ability to name rooms next to their list of numbers.
 	private String theaterString;
-<<<<<<< HEAD
+
 	@ManyToMany
 	@JoinColumn(name = "theater_list")
 	private List<Showtime> theaterList;
-=======
-	//Needs propper annotations to be implemented
-	//private List<Showtime> theaterList;
->>>>>>> 033b0a5232802991a0edbb04a3505d9eef401fd0
+	// Needs propper annotations to be implemented
 
 	public String getTheaterString() {
 		return theaterString;
@@ -46,13 +43,17 @@ public class TheaterRooms {
 		this.theaterString = theaterString;
 	}
 
-	/*public List<Showtime> getTheaterList() {
-		return theaterList;
-	}*/
+	/*
+	 * public List<Showtime> getTheaterList() {
+	 * return theaterList;
+	 * }
+	 */
 
-	/*public void setTheaterList(List<Showtime> theaterList) {
-		this.theaterList = theaterList;
-	}*/
+	/*
+	 * public void setTheaterList(List<Showtime> theaterList) {
+	 * this.theaterList = theaterList;
+	 * }
+	 */
 
 	public TheaterRooms() {
 		super();
@@ -66,11 +67,11 @@ public class TheaterRooms {
 	public TheaterRooms(String theaterString, List<Showtime> theaterList) {
 		super();
 		theaterString = this.theaterString;
-		//theaterList = this.theaterList;
+		// theaterList = this.theaterList;
 	}
 
 	@Override
 	public String toString() {
-		return "Theater: " + this.theaterString + " | Number=" + ".";//+ this.theaterList
+		return "Theater: " + this.theaterString + " | Number=" + ".";// + this.theaterList
 	}
 }
