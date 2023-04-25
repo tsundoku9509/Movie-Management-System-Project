@@ -2,12 +2,14 @@
 <html>
 <head>
 	<meta charset="ISO-8859-1">
+	<meta name="Author" value="Jacoby King">
 	<title>Create an Account</title>
 	<script th:inline="javascript">
 		let users = new Array();
 		users = /*[[${users}]]*/ 'default';
 	</script>
 	<script>
+		let genres = ["Action", "Adventure", "Comedy", "Documentary", "Drama", "Horror", "Musical", "Romance", "Thriller"];
 		function invalidField(inField){
 			inField.style.backgroundColor = "#E55D40";
 			event.preventDefault();
@@ -54,6 +56,10 @@
 		Last Name: <input name="lastName" size="20" th:field="*{lastName}" maxlength="15"> <br />
 		Username: <input name="username" size="10" th:field="*{username}" maxlength="15"><br/>
 		Password: <input name="password" size="10" th:field="*{password}" maxlength="15"><br />
+		Favorite Genre: 
+		<select name="movieGenre" th:field="*{favoriteGenre}">
+			<script>genres.forEach(genre => document.write("<option value='" + genre + "'>" + genre + "</option>"))</script>
+		</select><br />
 		<input name="submit" type="submit" value="Submit" onclick="validateFields()"/>
 	</form>
 	<span></span>

@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import projmays.repository.MovieRepository;
 import projmays.repository.ShowtimesRepository;
 import projmays.repository.UserRepository;
+import projmays.beans.Movie;
 import projmays.beans.Showtime;
 import projmays.beans.User;
 
@@ -38,6 +40,8 @@ public class WebController {
 	ShowtimesRepository showtimesRepo;
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	MovieRepository movieRepo;
 	
 	long currentUserId;
 	
@@ -68,39 +72,31 @@ public class WebController {
 	@GetMapping("/viewShowtimes")
 	public String viewShowtimes(Model model) {
 		model.addAttribute("showtimes", showtimesRepo.findAll());
+		model.addAttribute("user", userRepo.findById(currentUserId).orElse(null));
 		return "showtimesResults";
 	}
 	@GetMapping("/addShowtime")
 	public String addShowtime(Model model) {
 		Showtime s = new Showtime();
-		List<Showtime> shows = showtimesRepo.findAll();
-		List<Integer> theatersUsed = new ArrayList<Integer>();
-		List<String> theaterOneTimes = new ArrayList<String>();
-		List<String> theaterTwoTimes = new ArrayList<String>();
-		List<String> theaterThreeTimes = new ArrayList<String>();
-		List<String> theaterFourTimes = new ArrayList<String>();
-		List<List<String>> timesUsed = new ArrayList<>();
-		for(Showtime e : shows) {
-			theatersUsed.add(e.getTheaterNumber());
-			if(e.getTheaterNumber() == 1) {
-				theaterOneTimes.add(e.getTime().toString());
+		List<Showtime> currentShowtimes = showtimesRepo.findAll();
+		List<Movie> currentMovies = movieRepo.findAll();
+		List<List<String>> timesUsed = new ArrayList<>(List.of(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+		for(Showtime i : currentShowtimes) {
+			if(i.getTheaterNumber() == 1) {
+				timesUsed.get(0).add(i.getTime().toString());
 			}
-			else if(e.getTheaterNumber() == 2) {
-				theaterTwoTimes.add(e.getTime().toString());
+			else if(i.getTheaterNumber() == 2) {
+				timesUsed.get(1).add(i.getTime().toString());
 			}
-			else if(e.getTheaterNumber() == 3) {
-				theaterThreeTimes.add(e.getTime().toString());
+			else if(i.getTheaterNumber() == 3) {
+				timesUsed.get(2).add(i.getTime().toString());
 			}
-			else if(e.getTheaterNumber() == 4) {
-				theaterFourTimes.add(e.getTime().toString());
+			else if(i.getTheaterNumber() == 4) {
+				timesUsed.get(3).add(i.getTime().toString());
 			}
 		}
-		timesUsed.add(theaterOneTimes);
-		timesUsed.add(theaterTwoTimes);
-		timesUsed.add(theaterThreeTimes);
-		timesUsed.add(theaterFourTimes);
 		model.addAttribute("newShowtime", s);
-		model.addAttribute("theatersUsed", theatersUsed);
+		model.addAttribute("currentMovies", currentMovies);
 		model.addAttribute("timesUsed", timesUsed);
 		return "showtimesInput";
 	}
@@ -135,5 +131,34 @@ public class WebController {
 		User u = userRepo.findById(currentUserId).orElse(null);
 		model.addAttribute("user", u);
 		return "purchasedTicketsResults";
+	}
+	@GetMapping("/addMovie")
+	public String addMovie(Model model) {
+		Movie m = new Movie();
+		List<Movie> movies = movieRepo.findAll();
+		model.addAttribute("newMovie", m);
+		model.addAttribute("currentMovies", movies);
+		return "movieInput";
+	}
+	@PostMapping("/addMovie")
+	public String addMovie(@ModelAttribute Movie m, Model model) {
+		movieRepo.save(m);
+		System.out.println(m.toString());
+		return addShowtime(model);
+	}
+	
+	//Edit Showtimes
+	@GetMapping("/edit/{id}")
+		public String showUpdateShowtime(@PathVariable("id") long id, Model model) {
+			Showtime s = showtimesRepo.findById(id).orElse(null);
+			model.addAttribute("newShowtime", s);
+			return "showtimesInput"; 
+	}
+	
+	//This should update the showtime list with any changes
+	@PostMapping("/update/{id}")
+		public String reviseShowtime(Showtime s, Model model)  {
+		showtimesRepo.save(s);
+		return viewShowtimes(model);
 	}
 }

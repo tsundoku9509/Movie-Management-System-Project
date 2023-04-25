@@ -20,6 +20,7 @@ import jakarta.persistence.Table;
 public class BusiestTheater {
 	@Id
 	@GeneratedValue
+	private long id;
 	@Column(name = "theater")
 	private int busiestTheaterNum;
 
