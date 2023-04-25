@@ -5,11 +5,14 @@ package projmays.beans;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -23,8 +26,11 @@ public class TheaterRooms {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "theater")
 	// This string allows user ability to name rooms next to their list of numbers.
 	private String theaterString;
+	@ManyToMany
+	@JoinColumn(name = "theater_list")
 	private List<Showtime> theaterList;
 
 	public String getTheaterString() {
