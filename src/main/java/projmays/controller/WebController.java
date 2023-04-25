@@ -72,6 +72,7 @@ public class WebController {
 	@GetMapping("/viewShowtimes")
 	public String viewShowtimes(Model model) {
 		model.addAttribute("showtimes", showtimesRepo.findAll());
+		model.addAttribute("user", userRepo.findById(currentUserId).orElse(null));
 		return "showtimesResults";
 	}
 	@GetMapping("/addShowtime")
