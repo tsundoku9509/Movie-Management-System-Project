@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,9 +45,21 @@ public class WebController {
 	@Autowired
 	MovieRepository movieRepo;
 	
+	ApplicationContext context = new AnnotationConfigApplicationContext(BeanConfiguration.class);
+	User jacoby = context.getBean("Jacoby", User.class);
+	User adelle = context.getBean("Adelle", User.class);
+	User austin = context.getBean("Austin", User.class);
+	
 	long currentUserId;
 	
-	@GetMapping({"/", "signIn"})
+	@GetMapping({"/", "loadBeans"})
+	public String loadBeans(Model model){
+		userRepo.save(jacoby);
+		userRepo.save(adelle);
+		userRepo.save(austin);
+		return userSignIn(model);
+	}
+	@GetMapping("/signIn")
 	public String userSignIn(Model model) {
 		List<User> users = userRepo.findAll();
 		model.addAttribute("users", users);
@@ -105,13 +119,6 @@ public class WebController {
 		showtimesRepo.save(s);
 		return viewShowtimes(model);
 	}
-	//Deletes A ShowTime
-	@GetMapping("/delete/{id}")
-		public String deleteShowtime(@PathVariable("id") long id, Model model) {
-			Showtime s = showtimesRepo.findById(id).orElse(null);
-			showtimesRepo.delete(s);
-			return viewShowtimes(model);
-	}
 	@PostMapping("/purchaseTickets")
 	public String purchaseTickets(@RequestParam("id") long id, @RequestParam("ticketQuantity") int quantity, Model model) {
 		Showtime s = showtimesRepo.findById(id).orElse(null);
@@ -122,8 +129,6 @@ public class WebController {
 		s.setTicketsAvailable(s.getTicketsAvailable() - quantity);
 		userRepo.save(u);
 		showtimesRepo.save(s);
-		//Delete at some point
-		System.out.println(u.toString());
 		return viewShowtimes(model);
 	}
 	@GetMapping("/viewTicketsPurchased")
@@ -143,10 +148,16 @@ public class WebController {
 	@PostMapping("/addMovie")
 	public String addMovie(@ModelAttribute Movie m, Model model) {
 		movieRepo.save(m);
-		System.out.println(m.toString());
 		return addShowtime(model);
 	}
 	
+	//Deletes A ShowTime
+	@GetMapping("/delete/{id}")
+		public String deleteShowtime(@PathVariable("id") long id, Model model) {
+			Showtime s = showtimesRepo.findById(id).orElse(null);
+			showtimesRepo.delete(s);
+			return viewShowtimes(model);
+	}
 	//Edit Showtimes
 	@GetMapping("/edit/{id}")
 		public String showUpdateShowtime(@PathVariable("id") long id, Model model) {
@@ -154,7 +165,6 @@ public class WebController {
 			model.addAttribute("newShowtime", s);
 			return "showtimesInput"; 
 	}
-	
 	//This should update the showtime list with any changes
 	@PostMapping("/update/{id}")
 		public String reviseShowtime(Showtime s, Model model)  {
