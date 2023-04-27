@@ -26,6 +26,7 @@ public class TheaterRooms {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	@Column(name = "theater")
 	// This string allows user ability to name rooms next to their list of numbers.
 	private String theaterString;
@@ -33,7 +34,6 @@ public class TheaterRooms {
 	@ManyToMany
 	@JoinColumn(name = "theater_list")
 	private List<Showtime> theaterList;
-	// Needs propper annotations to be implemented
 
 	public String getTheaterString() {
 		return theaterString;

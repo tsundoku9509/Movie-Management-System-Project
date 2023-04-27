@@ -36,6 +36,7 @@
 			let tableRows = document.querySelectorAll("tr");
 			let selectedRow = document.querySelector("table tr:has(td input[type=radio]:checked)");
 			tableRows.forEach(row => row.style.backgroundColor = "#FFFFFF");
+			document.querySelector("span").innerHTML = "";
 			document.querySelector("input[name=ticketQuantity]").hidden = false;
 			document.querySelector("input[name=purchaseTickets]").hidden = false;
 			if(ticketQuantityField.value > ticketsAvailable()){
@@ -63,6 +64,9 @@
 			ticketQuantityField.max = ticketsAvailable();
 		}
 		function loadPage(){
+			if(user.userPermissions < 1){
+				document.querySelector("button:nth-of-type(2)").hidden = true;
+			}
 			if(showtimes.length == 0){
 				document.querySelector("span").innerHTML = "No Showtimes Available Today";
 				document.querySelector("input[name=ticketQuantity]").hidden = true;
@@ -115,7 +119,7 @@
 		</script>
 		 -->
 	</form>
-	<a href="addShowtime">Add a New Showtime</a>
-	<a href="viewTicketsPurchased">View Your Current Tickets</a>
+	<button onclick="window.location.href='viewTicketsPurchased'">View Your Current Tickets</button>
+	<button onclick="window.location.href='addShowtime'">Add a New Showtime</button>
 </body>
 </html>

@@ -22,10 +22,14 @@
 		let user = /*[[${user}]]*/ 'default';
 	</script>
 	<script>
-		
+		function pageSetup(){
+			if(user.ticketsPurchased.length == 0){
+				document.querySelector('span').innerHTML = "You Have Not Purchased Any Tickets Yet";
+			}
+		}
 	</script>
 </head>
-<body>
+<body onload="pageSetup()">
 	<table>
 		<tr>
 			<th>Title</th>
@@ -40,6 +44,7 @@
 			<td th:text="${currentShowtime.theaterNumber}" />
 		</tr>
 	</table>
-	<a href="viewShowtimes">View Showtimes</a>
+	<span></span><br />
+	<button onclick="window.location.href='viewShowtimes'">View Showtimes</button>
 </body>
 </html>

@@ -36,25 +36,14 @@ public class User {
 	private String password;
 	@Column(name = "favorite_genre")
 	private String favoriteGenre;
+	@Column(name = "user_persmissions")
+	private int userPermissions;
 	@ManyToMany
 	@JoinColumn(name = "tickets_purchased")
 	private List<Showtime> ticketsPurchased;
-	@Column(name = "user_persmissions")
-	private int userPermissions;
 	public User() {
 		super();
-	}
-	public User(long id, String firstName, String lastName, String username, String password, String favoriteGenre,
-			List<Showtime> ticketsPurchased, int userPermissions) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.username = username;
-		this.password = password;
-		this.favoriteGenre = favoriteGenre;
-		this.ticketsPurchased = ticketsPurchased;
-		this.userPermissions = userPermissions;
+		this.userPermissions = 0;
 	}
 	public User(long id, String firstName, String lastName, String username, String password, String favoriteGenre,
 			List<Showtime> ticketsPurchased) {
@@ -68,6 +57,16 @@ public class User {
 		this.ticketsPurchased = ticketsPurchased;
 		this.userPermissions = 0;
 	}
+	public User(long id, String firstName, String lastName, String username, String password, String favoriteGenre, int userPermissions) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.favoriteGenre = favoriteGenre;
+		this.userPermissions = userPermissions;
+	}
 	public User(String firstName, String lastName, String password, String favoriteGenre, List<Showtime> ticketsPurchased) {
 		super();
 		this.firstName = firstName;
@@ -77,12 +76,13 @@ public class User {
 		this.ticketsPurchased = ticketsPurchased;
 		this.userPermissions = 0;
 	}
-	public User(String firstName, String lastName, String password, List<Showtime> ticketsPurchased) {
+	public User(String firstName, String lastName, String username, String password, String favoriteGenre) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.username = username;
 		this.password = password;
-		this.ticketsPurchased = ticketsPurchased;
+		this.favoriteGenre = favoriteGenre;
 		this.userPermissions = 0;
 	}
 	public User(String firstName, String lastName, String password) {
@@ -128,6 +128,12 @@ public class User {
 	}
 	public void setFavoriteGenre(String favoriteGenre) {
 		this.favoriteGenre = favoriteGenre;
+	}
+	public int getUserPermissions() {
+		return userPermissions;
+	}
+	public void setUserPermissions(int userPermissions) {
+		this.userPermissions = userPermissions;
 	}
 	public List<Showtime> getTicketsPurchased() {
 		return ticketsPurchased;
