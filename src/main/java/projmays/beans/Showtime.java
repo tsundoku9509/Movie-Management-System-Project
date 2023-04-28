@@ -42,7 +42,6 @@ public class Showtime {
 	private LocalTime pastShowTimes;
 	@Column(name = "future_showtimes")
 	private LocalTime futureShowTimes;
-	private static LocalTime MAX;
 
 	public Showtime(long id, Movie movie, LocalTime time, int theaterNumber, int ticketsAvailable,
 			boolean isDiscounted) {
@@ -53,13 +52,6 @@ public class Showtime {
 		this.theaterNumber = theaterNumber;
 		this.ticketsAvailable = ticketsAvailable;
 		this.isDiscounted = isDiscounted;
-
-		while (time != MAX) {
-			System.out.println("Recent showtimes: " + this.pastShowTimes);
-		}
-		if (time == MAX) {
-			System.out.println("Future showtimes: " + this.futureShowTimes);
-		}
 	}
 
 	public Showtime() {

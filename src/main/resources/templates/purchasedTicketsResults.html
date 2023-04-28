@@ -7,15 +7,56 @@
 		table {
 	  		font-family: arial, sans-serif;
 	  		border-collapse: collapse;
-	  		width: 80%;
+	  		width: 90%;
+	  		margin: 0 auto;
 		}
 		td, th {
 	  		border: 1px solid #000000;
 	  		text-align: center;
 	  		padding: 8px;
 		}
+		td{
+			background-color: #D7CEC7;
+		}
 		th {
-	  		background-color: #dddddd;
+			color: #FFFFFF;
+	  		background-color: #565656;
+		}
+		body{
+			display: flex;
+			justify-content:center;
+			background-color: #565656;
+			font-family: Garamond, serif;
+			
+		}
+		.container{
+			width: 1000px;
+			height: auto;
+			margin-top: 10px;
+			background-color: #76323F;
+			text-align: center;
+			border-radius: 25px;
+			overflow: auto;
+		}		
+		h1{
+			color: #D7CEC7;
+			font-size: 40px;
+		}
+		button{
+			border: none;
+		    color: #000000;
+		    padding: 5px 15px;
+		    font-size: 18px;
+		    display: block;
+		    margin: 10px auto;
+		    background-color: #D7CEC7;
+		}
+		button:hover{
+		    color: #FFFFFF;
+		    background-color: #565656;
+		}
+		span{
+			color: #FFFFFF;
 		}
 	</style>
 	<script th:inline="javascript">
@@ -24,12 +65,15 @@
 	<script>
 		function pageSetup(){
 			if(user.ticketsPurchased.length == 0){
-				document.querySelector('span').innerHTML = "You Have Not Purchased Any Tickets Yet";
+				document.querySelector("span").innerHTML = "You Have Not Purchased Any Tickets Yet";
+				document.querySelector("table").style.display = 'none';
 			}
 		}
 	</script>
 </head>
 <body onload="pageSetup()">
+<div class="container">
+	<h1>Your Current Tickets</h1>
 	<table>
 		<tr>
 			<th>Title</th>
@@ -46,5 +90,6 @@
 	</table>
 	<span></span><br />
 	<button onclick="window.location.href='viewShowtimes'">View Showtimes</button>
+</div>
 </body>
 </html>

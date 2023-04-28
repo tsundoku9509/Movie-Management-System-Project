@@ -7,7 +7,8 @@
 		table {
 	  		font-family: arial, sans-serif;
 	  		border-collapse: collapse;
-	  		width: 80%;
+	  		width: 90%;
+	  		margin: 0 auto;
 		}
 		td, th {
 	  		border: 1px solid #000000;
@@ -15,7 +16,57 @@
 	  		padding: 8px;
 		}
 		th {
-	  		background-color: #dddddd;
+			color: #FFFFFF;
+	  		background-color: #565656;
+		}
+		body{
+			display: flex;
+			justify-content:center;
+			background-color: #565656;
+			font-family: Garamond, serif;
+			
+		}
+		.container{
+			width: 1000px;
+			height: auto;
+			margin-top: 10px;
+			background-color: #76323F;
+			text-align: center;
+			border-radius: 25px;
+			overflow: auto;
+		}		
+		input[type="number"]{
+			margin-top: 5px;
+			width: 100px;
+			background-color: #D7CEC7;
+			text-align: center;
+			height: 30px;
+		}
+		h1{
+			color: #D7CEC7;
+			font-size: 40px;
+		}
+		input[type="submit"], button{
+			border: none;
+		    color: #000000;
+		    padding: 5px 15px;
+		    font-size: 18px;
+		    display: block;
+		    margin: 0 auto;
+		    background-color: #D7CEC7;
+		}
+		input[type="submit"]:hover, button:hover{
+		    color: #FFFFFF;
+		    background-color: #565656;
+		}
+		input[type="submit"]{
+			margin-top: 5px;
+		}
+		span{
+			color: #FFFFFF;
+		}
+		button{
+			margin-top: 5px;
 		}
 	</style>
 	<script th:inline="javascript">
@@ -35,10 +86,11 @@
 			let ticketQuantityField = document.querySelector("input[name=ticketQuantity]");
 			let tableRows = document.querySelectorAll("tr");
 			let selectedRow = document.querySelector("table tr:has(td input[type=radio]:checked)");
-			tableRows.forEach(row => row.style.backgroundColor = "#FFFFFF");
+			tableRows.forEach(row => row.style.backgroundColor = "#D7CEC7");
+			tableRows.forEach(row => row.style.color = "#000000");
 			document.querySelector("span").innerHTML = "";
-			document.querySelector("input[name=ticketQuantity]").hidden = false;
-			document.querySelector("input[name=purchaseTickets]").hidden = false;
+			document.querySelector("input[name=ticketQuantity]").style.display = 'inline';
+			document.querySelector("input[name=purchaseTickets]").style.display = 'inline';
 			if(ticketQuantityField.value > ticketsAvailable()){
 				ticketQuantityField.value = ticketsAvailable();
 			}
@@ -46,34 +98,37 @@
 				ticketQuantityField.value = 1;
 			}
 			if(ticketsAvailable() == 0){
-				document.querySelector("input[name=ticketQuantity]").hidden = true;
-				document.querySelector("input[name=purchaseTickets]").hidden = true;
+				document.querySelector("input[name=ticketQuantity]").style.display = 'none';
+				document.querySelector("input[name=purchaseTickets]").style.display = 'none';
 				let tableRows = document.querySelectorAll("tr");
 				let selectedRow = document.querySelector("table tr:has(td input[type=radio]:checked)");
 				for(let i = 0; i < tableRows.length; i++){
 					if(selectedRow.cells[1].innerHTML == tableRows[i].cells[1].innerHTML && tableRows[i].cells[4].innerHTML > 0){
-						tableRows[i].style.backgroundColor = "#66FF66";
-						document.querySelector("span").innerHTML = "Unfortunately the movie you have selected is sold out!<br/>Here are a few movies we recommend:<br/>Golden showtimes are movies with your favorite genre.<br/>Green showtimes are movies with the same genre as the one you selected.";
+						console.log(tableRows[i].cells[1].innerHTML);
+						tableRows[i].style.backgroundColor = "#565656";
+						tableRows[i].style.color = "#FFFFFF";
 					}
 					if(user.favoriteGenre == tableRows[i].cells[1].innerHTML && tableRows[i].cells[4].innerHTML > 0){
-						tableRows[i].style.backgroundColor = "#FFFF66";
-						document.querySelector("span").innerHTML = "Unfortunately the movie you have selected is sold out!<br/>Here are a few movies we recommend:<br/>Golden showtimes are movies with your favorite genre.<br/>Green showtimes are movies with the same genre as the one you selected.";
+						tableRows[i].style.backgroundColor = "#D4AF37";
+						tableRows[i].style.color = "#FFFFFF";
 					}
 				}
+				document.querySelector("span").innerHTML = "Unfortunately the movie you have selected is sold out!<br/>Here are a few movies we recommend:<br/>Golden showtimes are movies with your favorite genre.<br/>Black showtimes are movies with the same genre as the one you selected.";
 			}
 			ticketQuantityField.max = ticketsAvailable();
 		}
 		function loadPage(){
 			if(user.userPermissions < 1){
-				document.querySelector("button:nth-of-type(2)").hidden = true;
+				document.querySelector("button:nth-of-type(2)").style.display = 'none';
 			}
 			if(showtimes.length == 0){
 				document.querySelector("span").innerHTML = "No Showtimes Available Today";
-				document.querySelector("input[name=ticketQuantity]").hidden = true;
-				document.querySelector("input[name=purchaseTickets]").hidden = true;
+				document.querySelector("input[name=ticketQuantity]").style.display = 'none';
+				document.querySelector("input[name=purchaseTickets]").style.display = 'none';
+				document.querySelector("table").style.display = 'none';
 			}
 			else{
-				document.querySelector("input[name = 'ticketQuantity']").value = 1;
+				document.querySelector("input[name='ticketQuantity']").value = 1;
 				document.querySelector("input[name=id]").checked = true;
 				setNewMax();
 			}
@@ -81,6 +136,8 @@
 	</script>
 </head>
 <body onload="loadPage()">
+<div class="container">
+	<h1>Current Showtimes</h1>
 	<form th:action="@{/purchaseTickets}" method=POST>
 		<table>
 			<tr>
@@ -89,7 +146,7 @@
 				<th>Time</th>
 				<th>Theater Number</th>
 				<th>Tickets Available</th>
-				<th>Selected Showtime<th>
+				<th>Selected Showtime</th>
 			</tr>
 			<tr th:each="currentShowtime : ${showtimes}">
 				<td th:text="${currentShowtime.movie.title}" />
@@ -106,9 +163,10 @@
 				 -->
 			</tr>
 		</table>
-		<span></span><br>
-		<input type="number" name="ticketQuantity" size="1" min="1" onchange="if(value<1){value=1;} else if(value>ticketsAvailable()){value=ticketsAvailable();}"><br>
-		<input type="submit" name="purchaseTickets" value="Purchase Tickets"><br>
+		<div>
+			<input type="number" name="ticketQuantity" size="1" min="1" onchange="if(value<1){value=1;} else if(value>ticketsAvailable()){value=ticketsAvailable();}">
+			<input type="submit" name="purchaseTickets" value="Purchase Tickets">
+		</div>
 		<!-- Work in Progress
 		<button onclick="timeSort()">Sort by Time</button>
 		<script> 
@@ -121,5 +179,7 @@
 	</form>
 	<button onclick="window.location.href='viewTicketsPurchased'">View Your Current Tickets</button>
 	<button onclick="window.location.href='addShowtime'">Add a New Showtime</button>
+	<span></span>
+</div>
 </body>
 </html>
