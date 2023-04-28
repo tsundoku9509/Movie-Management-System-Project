@@ -3,6 +3,65 @@
 	<meta charset="ISO-8859-1">
 	<meta name="Author" value="Jacoby King">
 	<title>Insert Movie</title>
+	<style>
+		body{
+			display: flex;
+			justify-content:center;
+			background-color: #565656;
+			font-family: Garamond, serif;
+		}
+		.container{
+			width: 500px;
+			height: 300px;
+			margin-top: 50px;
+			background-color: #76323F;
+			text-align: center;
+			border-radius: 25px;
+		}
+		form{
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			column-gap: 10px;
+		}
+		label{
+			grid-column: 1;
+			justify-self: end;
+			color: #D7CEC7;
+			font-size: 20px;
+		}
+		input[type="text"], select{
+			width: 250px;
+			grid-column: 2/4;
+			background-color: #D7CEC7;
+		}
+		h1{
+			color: #D7CEC7;
+			font-size: 40px;
+		}
+		input[type="submit"], button{
+			border: none;
+		    color: #000000;
+		    padding: 5px 15px;
+		    font-size: 18px;
+		    display: block;
+		    margin: 0 auto;
+		    background-color: #D7CEC7;
+		}
+		input[type="submit"]:hover, button:hover{
+		    color: #FFFFFF;
+		    background-color: #565656;
+		}
+		input[type="submit"]{
+			margin-top: 20px;
+			place-self: center;
+		}
+		span{
+			color: #FFFFFF;
+		}
+		button{
+			margin-top: 5px;
+		}
+	</style>
 	<script th:inline="javascript">
 		let currentMovies = /*[[${currentMovies}]]*/ 'default';
 	</script>
@@ -31,15 +90,18 @@
 	</script>
 </head>
 <body>
+<div class="container">
+	<h1>Add a Movie</h1>
 	<form th:object="${newMovie}" th:action="@{/addMovie}" method=POST>
-		Movie Title: <input name="movieTitle" id="movieTitle" size="20" th:field="*{title}" maxlength="30"><br />
-		Genre: 
-		<select name="movieGenre" th:field="*{genre}">
+		<label for="movieTitle">Movie Title: </label><input type="text" name="movieTitle" id="movieTitle" size="20" th:field="*{title}" maxlength="30"><br />
+		<label for="movieGenre">Genre: </label>
+		<select name="movieGenre" id="movieGenre" th:field="*{genre}">
 			<script>genres.forEach(genre => document.write("<option value='" + genre + "'>" + genre + "</option>"))</script>
 		</select><br />
 		<input name="submit" type="submit" value="Submit" onclick="validateFields()"/>
 	</form>
-	<span></span><br />
 	<button onclick="window.location.href='viewShowtimes'">View Showtimes</button>
+	<span></span>
+</div>
 </body>
 </html>

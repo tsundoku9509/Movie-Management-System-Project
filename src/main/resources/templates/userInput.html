@@ -4,6 +4,62 @@
 	<meta charset="ISO-8859-1">
 	<meta name="Author" value="Jacoby King">
 	<title>Create an Account</title>
+	<style>
+		body{
+			display: flex;
+			justify-content:center;
+			background-color: #565656;
+			font-family: Garamond, serif;
+		}
+		.container{
+			width: 500px;
+			height: 400px;
+			margin-top: 50px;
+			background-color: #76323F;
+			text-align: center;
+			border-radius: 25px;
+		}
+		form{
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			column-gap: 10px;
+		}
+		label{
+			grid-column: 1;
+			justify-self: end;
+			color: #D7CEC7;
+			font-size: 20px;
+		}
+		input[type="text"], select{
+			width: 250px;
+			grid-column: 2/4;
+			background-color: #D7CEC7;
+		}
+		h1{
+			color: #D7CEC7;
+			font-size: 40px;
+		}
+		input[type="submit"], button{
+			border: none;
+		    color: #000000;
+		    padding: 5px 15px;
+		    font-size: 18px;
+		    display: block;
+		    margin: 0 auto;
+		    background-color: #D7CEC7;
+		}
+		input[type="submit"]:hover, button:hover{
+		    color: #FFFFFF;
+		    background-color: #565656;
+		}
+		input[type="submit"]{
+			margin-top: 20px;
+			place-self: center;
+		}
+		span{
+			color: #FFFFFF;
+		}
+	</style>
 	<script th:inline="javascript">
 		let users = new Array();
 		users = /*[[${users}]]*/ 'default';
@@ -51,17 +107,20 @@
 	</script>
 </head>
 <body>
+<div class="container">
+	<h1>Create an Account</h1>
 	<form th:object="${newUser}" th:action="@{/createUser}" method=POST>
-		First Name: <input name="firstName" size="20" th:field="*{firstName}" maxlength="15"> <br />
-		Last Name: <input name="lastName" size="20" th:field="*{lastName}" maxlength="15"> <br />
-		Username: <input name="username" size="10" th:field="*{username}" maxlength="15"><br/>
-		Password: <input name="password" size="10" th:field="*{password}" maxlength="15"><br />
-		Favorite Genre: 
-		<select name="movieGenre" th:field="*{favoriteGenre}">
+		<label for="firstName">First Name: </label><input type="text" name="firstName" id="firstName" size="20" th:field="*{firstName}" maxlength="15"> <br />
+		<label for="lastName">Last Name: </label><input type="text" name="lastName" id="lastName" size="20" th:field="*{lastName}" maxlength="15"> <br />
+		<label for="username">Username: </label><input type="text" name="username" id="username" size="10" th:field="*{username}" maxlength="15"><br/>
+		<label for="password">Password: </label><input type="text" name="password" id="password" size="10" th:field="*{password}" maxlength="15"><br />
+		<label for="favoriteGenre">Favorite Genre: </label>
+		<select name="movieGenre" id="favoriteGenre" th:field="*{favoriteGenre}">
 			<script>genres.forEach(genre => document.write("<option value='" + genre + "'>" + genre + "</option>"))</script>
 		</select><br />
-		<input name="submit" type="submit" value="Submit" onclick="validateFields()"/>
+		<input name="submit" type="submit" value="Create Account" onclick="validateFields()"/>
 	</form>
 	<span></span>
+</div>
 </body>
 </html>
