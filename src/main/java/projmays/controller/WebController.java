@@ -86,7 +86,7 @@ public class WebController {
 	@GetMapping("/viewShowtimes")
 	public String viewShowtimes(Model model) {
 		model.addAttribute("showtimes", showtimesRepo.findAll());
-		model.addAttribute("user", userRepo.findById(currentUserId).orElse(null));
+		model.addAttribute("user", userRepo.findById(currentUserId).orElse(null));	
 		return "showtimesResults";
 	}
 	@GetMapping("/addShowtime")
@@ -168,7 +168,28 @@ public class WebController {
 	//This should update the showtime list with any changes
 	@PostMapping("/update/{id}")
 		public String reviseShowtime(Showtime s, Model model)  {
-		showtimesRepo.save(s);
-		return viewShowtimes(model);
+			showtimesRepo.save(s);
+			return viewShowtimes(model);
+		}
+	
+	//Edit Movies
+	@GetMapping("/edit/{id}")
+		public String showUpdateMovie(@PathVariable("id") long id, Model model) {
+			Movie m = movieRepo.findById(id).orElse(null);
+			model.addAttribute("newMovie", m);
+			return "movieInput";
+		}
+	
+	//Update the movie list with any changes
+	@PostMapping("/update/{id}")
+		public String reviseMovie(Movie m, Model model)  {
+			movieRepo.save(m);
+			return viewShowtimes(model);
 	}
+	
+	//Display Price
+	/*@PostMapping("/disocunt/{id}")
+		public String discountMovie(Movie m, Model model) {
+			model.addAttribute("price")
+	} */
 }
