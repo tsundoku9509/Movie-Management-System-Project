@@ -42,6 +42,8 @@ public class Showtime {
 	private LocalTime pastShowTimes;
 	@Column(name = "future_showtimes")
 	private LocalTime futureShowTimes;
+	@Column(name = "price")
+	private double price = determinePrice();
 
 	public Showtime(long id, Movie movie, LocalTime time, int theaterNumber, int ticketsAvailable,
 			boolean isDiscounted) {
@@ -78,6 +80,21 @@ public class Showtime {
 		this.time = time;
 		this.theaterNumber = theaterNumber;
 		this.ticketsAvailable = ticketsAvailable;
+	}
+
+	
+	public Showtime(long id, Movie movie, LocalTime time, int theaterNumber, int ticketsAvailable, boolean isDiscounted,
+			LocalTime pastShowTimes, LocalTime futureShowTimes, double price) {
+		super();
+		this.id = id;
+		this.movie = movie;
+		this.time = time;
+		this.theaterNumber = theaterNumber;
+		this.ticketsAvailable = ticketsAvailable;
+		this.isDiscounted = isDiscounted;
+		this.pastShowTimes = pastShowTimes;
+		this.futureShowTimes = futureShowTimes;
+		this.price = price;
 	}
 
 	public long getId() {
@@ -143,11 +160,31 @@ public class Showtime {
 	public void setFutureShowTimes(LocalTime futureShowTimes) {
 		this.futureShowTimes = futureShowTimes;
 	}
+	
+	public double getPrice() {
+		return price;
+	}
+	
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
 	@Override
 	public String toString() {
 		return "Showtime [id=" + id + ", movie=" + movie + ", time=" + time + ", theaterNumber=" + theaterNumber
-				+ ", ticketsAvailable=" + ticketsAvailable + "]";// ", isDiscounted=" + isDiscounted +
+				+ ", ticketsAvailable=" + ticketsAvailable + ", isDiscounted=" + isDiscounted + ", price=" + price +"]";
 	}
 
+	public double determinePrice() {
+		double standardPrice = 10.00;
+		double discountedPrice = 10.00;
+		double price;
+		if (isDiscounted == false) {
+			price = standardPrice;
+		} else {
+			price = discountedPrice;
+		}
+		return price;
+	}
 }
+

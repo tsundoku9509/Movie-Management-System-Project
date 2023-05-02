@@ -134,6 +134,7 @@
 			}
 		}
 	</script>
+
 </head>
 <body onload="loadPage()">
 <div class="container">
@@ -151,6 +152,7 @@
 			<tr th:each="currentShowtime : ${showtimes}">
 				<td th:text="${currentShowtime.movie.title}" />
 				<td th:text="${currentShowtime.movie.genre}" />
+				<td th:text="${currentShowtime.price}" /> 
 				<td th:text="${currentShowtime.time}" />
 				<td th:text="${currentShowtime.theaterNumber}" />
 				<td th:text="${currentShowtime.ticketsAvailable}" />
@@ -167,15 +169,16 @@
 			<input type="number" name="ticketQuantity" size="1" min="1" onchange="if(value<1){value=1;} else if(value>ticketsAvailable()){value=ticketsAvailable();}">
 			<input type="submit" name="purchaseTickets" value="Purchase Tickets">
 		</div>
-		<!-- Work in Progress
+		
 		<button onclick="timeSort()">Sort by Time</button>
 		<script> 
 			//This should sort the table by times
 			function timeSort() {
   				table.findByOrderTimeAsc();
+  				window.location.href='showtimesResults';
 			}
 		</script>
-		 -->
+		 
 	</form>
 	<button onclick="window.location.href='viewTicketsPurchased'">View Your Current Tickets</button>
 	<button onclick="window.location.href='addShowtime'">Add a New Showtime</button>
